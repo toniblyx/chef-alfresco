@@ -8,6 +8,24 @@ node.default['artifacts']['catalina-jmx']['enabled'] = true
 context_template_cookbook = node['tomcat']['context_template_cookbook']
 context_template_source = node['tomcat']['context_template_source']
 
+# Install Tomcat Native
+unless node['platform_version'].start_with?("7")
+  cookbook_file '/usr/local/bin/compile-tomcat-native.sh' do
+    source 'tomcat/compile-tomcat-native.sh'
+    mode 0755
+  end
+  execute 'compile-tomcat-native' do
+    command '/usr/local/bin/compile-tomcat-native.sh'
+    not_if 'test -f /usr/lib64/libtcnative-1.so'
+  end
+else
+  %w{ apr tomcat-native }.each do |pkg|
+    package pkg do
+      action :install
+    end
+  end
+end
+
 additional_tomcat_packages = node['tomcat']['additional_tomcat_packages']
 additional_tomcat_packages.each do |pkg|
   package pkg do
