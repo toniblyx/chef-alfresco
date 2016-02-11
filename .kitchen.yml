@@ -10,7 +10,7 @@ provisioner:
   name: chef_zero
 
 platforms:
-  - name: centos-7.0
+  - name: redhat-7
     driver:
       # Nah, not working :( Using Vagrantfile.erb
       # network:

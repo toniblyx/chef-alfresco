@@ -15,17 +15,21 @@ elsif node['platform_family'] == "rhel"
     only_if { install_fonts and node['platform_family'] == "rhel" }
   end
 
-  #Taken from https://www.centos.org/forums/viewtopic.php?f=48&t=50232
-  bash 'install_swftools' do
+  bash 'install_swftools_libreoffice_more' do
     user 'root'
     cwd '/tmp'
     code <<-EOH
-    yum install -y wget zlib zlib-devel freetype-devel jpeglib-devel giflib-devel libjpeg-turbo-devel
-    wget http://www.swftools.org/swftools-2013-04-09-1007.tar.gz -O swftools-2013-04-09-1007.tar.gz
-    tar -zvxf swftools-2013-04-09-1007.tar.gz
+    yum-config-manager --enable rhui-REGION-rhel-server-optional
+    yum-config-manager --enable rhui-REGION-rhel-server-source-optional
+    yum install -y wget python-pip python-cheetah libffi-devel openssl-devel epel-release zlib zlib-devel freetype-devel jpeglib-devel giflib giflib-devel libjpeg-turbo-devel perl-Image-ExifTool gcc-c++ ImageMagick libreoffice libreoffice-headless
+    pip install --upgrade pip
+    curl -# -O http://www.swftools.org/swftools-2013-04-09-1007.tar.gz
+    tar -zxf swftools-2013-04-09-1007.tar.gz
     cd swftools-2013-04-09-1007
     ./configure --libdir=/usr/lib64 --bindir=/usr/local/bin
     make && make install
+    cd ..
+    rm -fr swftools-2013-04-09-1007*
     EOH
     not_if "test -f /usr/local/bin/pdf2swf"
   end
