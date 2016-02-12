@@ -1,0 +1,20 @@
+# Systemd unit file for <%= @instance %>
+
+[Unit]
+Description=<%= @instance %> Apache Tomcat Application
+After=syslog.target network.target
+
+[Service]
+Type=simple
+Environment="SERVICE_NAME=<%= @instance %>"
+EnvironmentFile=/etc/sysconfig/<%= @instance %>
+#ExecStart=/usr/sbin/tomcat start
+#ExecStop=/usr/sbin/tomcat stop
+ExecStart=/usr/libexec/tomcat/server start
+ExecStop=/usr/libexec/tomcat/server stop
+SuccessExitStatus=143
+User=<%= @user %>
+Group=<%= @group %>
+
+[Install]
+WantedBy=multi-user.target
