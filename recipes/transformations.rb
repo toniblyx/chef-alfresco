@@ -15,7 +15,7 @@ elsif node['platform_family'] == "rhel"
     only_if { install_fonts and node['platform_family'] == "rhel" }
   end
 
-  bash 'install_swftools_libreoffice_more' do
+  bash 'install_swftools_libreoffice_exif_imagemagic_more' do
     user 'root'
     cwd '/tmp'
     code <<-EOH
@@ -33,12 +33,4 @@ elsif node['platform_family'] == "rhel"
     EOH
     not_if "test -f /usr/local/bin/pdf2swf"
   end
-end
-
-package "libreoffice-headless" do
-  action :install
-end
-
-package "perl-Image-ExifTool" do
-  action :install
 end
