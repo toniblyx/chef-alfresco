@@ -1,0 +1,95 @@
+# When editing this file, remember that http://www.yamllint.com is your friend :-)
+---
+
+<% if ENV['KITCHEN_AWS'] %>
+driver:
+  # On-demand price for m1.small is 0.047, we can bid up to 4x this price
+  # price: 0.188
+  name: ec2
+  # Official CentOS 7 (x86_64) with Updates HVM
+  image_id: ami-96a818fe
+  username: centos
+  flavor_id: m3.medium
+  aws_ssh_key_id: <%= ENV['KEYPAIR_NAME'] %>
+  ssh_key: <%= ENV['AWS_KEY_PATH'] %>
+  aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  region: us-east-1
+  require_chef_omnibus: true
+  security_group_ids: ['default','packer_ssh_in']
+<% else %>
+driver_plugin: vagrant
+use_vagrant_berkshelf_plugin: true
+<% end %>
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: centos-7.0
+    driver:
+      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.0_chef-provisionerless.box
+    # driver_config:
+    #   require_chef_omnibus: 12.4.1
+
+suites:
+  - name: default
+    run_list:
+      - recipe[commons::_mock_files]
+      - recipe[commons::awscli]
+      - recipe[commons::chef-client-cron]
+      - recipe[commons::databags-to-files]
+      - recipe[commons::chefzero]
+      - recipe[commons::ec2-tagging]
+      - recipe[commons::ec2-discovery]
+      - recipe[commons::logstash-discovery]
+    data_bags_path: "test/integration/data_bags"
+    attributes: {
+      "name": "chef-commons-local",
+      "hostname": "chef-commons-local",
+      "commons" : {
+        "logstash" : {
+          "ec2" : {
+            "run_discovery" : true
+          }
+        },
+        "chef-client-cron" : {
+          "cron_name" : "test1",
+          "chef_json_cookbook" : "commons",
+          "chef_json_source" : "cron/chef-client.cron.erb"
+        },
+        "awscli" : {
+          "credentials_databag" : "aws",
+          "credentials_databag_item" : "test"
+        },
+        "databags_to_files" : {
+          "default_destination_folder" : "/etc/ssl/certs",
+          "default_filename_prefix" : "mycertname",
+          "databags" : {
+            "certs" : {
+              "test" : {}
+            }
+          }
+        },
+        "ec2_discovery" : {
+          "skip_ec2_commands" : true,
+          "current" : {
+            "ip" : "171.1.1.1",
+            "az" : "us-east-1a"
+          },
+          "output" : {
+            "elements" : {
+              "id" : "InstanceId",
+              "ip" : "PrivateIpAddress",
+              "state" : "State/Name"
+            },
+            "tags" : {
+              "instance_name" : "Name"
+            },
+            "filter_in" : {
+              "state" : "running"
+            }
+          }
+        }
+      }
+    }

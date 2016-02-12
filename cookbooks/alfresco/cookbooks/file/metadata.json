@@ -1,0 +1,31 @@
+{
+  "name": "file",
+  "description": "Some handy Chef resources for when you want to replace text and lines in files.",
+  "long_description": "Chef File\n===============\n\nSome handy Chef custom resources for when you want to replace text and lines in files.\n\n*As of version 2.0 the Filehelper cookbook was renamed File cookbook to accomodate a migration from definitions to custom LWRPs.*\n\nfile_replace\n------------\n\nSearch the file line by line and match each line with the given regex if matched, replace the match (all occurances) with the replace parameter.\n\n\tfile_replace \"/etc/sysctl.conf\" do\n\t\treplace \"#net.ipv4.ip_forward=1\"\n\t\twith    \"net.ipv4.ip_forward=1\"\n\tend\n\nfile_replace_line\n-----------------\n\nSearch the file line by line and match each line with the given regex if matched, replace the whole line with the replace parameter.\n\n\tfile_replace_line \"/etc/sysctl.conf\" do\n\t\treplace \"vm.swappiness\"\n\t\twith    \"vm.swappiness=60\"\n\tend\n\nfile_append\n-----------\n\nAppend a line to a file. It will not append the line if it is in the file already.\n\n\tfile_append \"/etc/sysctl.conf\" do\n\t\tline \"vm.swappiness=60\"\n\tend\n\nAttributes\n----------\n\nAll resources support the `path` attribute:\n\n\tfile_replace \"unique_resource_name\" do\n\t\treplace  \"#net.ipv4.ip_forward=1\"\n\t\twith     \"net.ipv4.ip_forward=1\"\n\t\tpath     \"/etc/sysctl.conf\"\n\tend\n\nTesting\n-------\n\nBasic chefspec testing has been added.  Please include tests with your pull requests.\n\n`bundle install`\n`rspec`",
+  "maintainer": "Jens Segers",
+  "maintainer_email": "",
+  "license": "",
+  "platforms": {
+  },
+  "dependencies": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "2.0.0",
+  "source_url": "",
+  "issues_url": ""
+}

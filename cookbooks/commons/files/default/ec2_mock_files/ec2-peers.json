@@ -1,0 +1,86 @@
+{
+    "Reservations": [
+        {
+            "Instances": [
+                {
+                    "State": {
+                        "Name": "running"
+                    },
+                    "PublicIpAddress": "51.51.51.51",
+                    "PrivateIpAddress": "171.1.1.1",
+                    "VpcId": "vpc-ffffffff",
+                    "InstanceId": "i-aaaaaaaaa",
+                    "Placement": {
+                        "AvailabilityZone": "us-east-1a"
+                    },
+                    "Tags": [
+                        {
+                            "Value": "complete",
+                            "Key": "Status"
+                        },
+                        {
+                            "Value": "example-allinone1",
+                            "Key": "Name"
+                        },
+                        {
+                            "Value": "alfresco,share,solr",
+                            "Key": "roles"
+                        }
+                    ]
+                  },
+                  {
+                      "State": {
+                          "Name": "running"
+                      },
+                      "PublicIpAddress": "52.52.52.52",
+                      "PrivateIpAddress": "172.2.2.2",
+                      "VpcId": "vpc-ffffffff",
+                      "InstanceId": "i-aaaaaaaaa",
+                      "Placement": {
+                          "AvailabilityZone": "us-east-1c"
+                      },
+                      "Tags": [
+                          {
+                              "Value": "complete",
+                              "Key": "Status"
+                          },
+                          {
+                              "Value": "example-share1",
+                              "Key": "Name"
+                          },
+                          {
+                              "Value": "alfresco,share",
+                              "Key": "roles"
+                          }
+                      ]
+                  },
+                  {
+                      "State": {
+                          "Name": "running"
+                      },
+                      "PublicIpAddress": "53.53.53.53",
+                      "PrivateIpAddress": "173.3.3.3",
+                      "VpcId": "vpc-ffffffff",
+                      "InstanceId": "i-aaaaaaaaa",
+                      "Placement": {
+                          "AvailabilityZone": "us-east-1b"
+                      },
+                      "Tags": [
+                          {
+                              "Value": "complete",
+                              "Key": "Status"
+                          },
+                          {
+                              "Value": "example-solr1",
+                              "Key": "Name"
+                          },
+                          {
+                              "Value": "alfresco,solr",
+                              "Key": "roles"
+                          }
+                      ]
+                  }
+          ]
+      }
+    ]
+}

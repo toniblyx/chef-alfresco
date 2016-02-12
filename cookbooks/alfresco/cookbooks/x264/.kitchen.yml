@@ -1,0 +1,21 @@
+---
+driver_plugin: vagrant
+driver_config:
+  require_chef_omnibus: true
+
+platforms:
+  - name: ubuntu-12.04
+
+suites:
+  - name: package
+    run_list:
+      - recipe[x264::default]
+    attributes:
+      x264:
+        install_method: 'package'
+  - name: source
+    run_list:
+      - recipe[x264::default]
+    attributes:
+      x264:
+        install_method: 'source'
