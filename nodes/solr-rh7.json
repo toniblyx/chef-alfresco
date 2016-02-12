@@ -25,7 +25,7 @@
         "install_fonts" : false,
         "version" : "5.0.2",
         "edition" : "enterprise",
-        "components" : ["tomcat","repo","transform","solr"],
+        "components" : ["tomcat","repo","solr"],
         "restart_services" : ["tomcat-alfresco","tomcat-solr"],
         "ssl_enabled" : false,
         "properties" : {
@@ -62,7 +62,7 @@
       "ec2_tags" : {
         "haproxy_backends" : "solr",
         "jvm_route" : "@@JVM_ROUTE@@",
-        "status" : "complete"    
+        "status" : "complete"
       }
     },
     "artifacts" : {
